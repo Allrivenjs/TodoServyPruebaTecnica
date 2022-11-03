@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Reviews;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class StoreReviewsRequest extends FormRequest
 {
@@ -13,7 +15,7 @@ class StoreReviewsRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return Auth::check();
     }
 
     /**
@@ -23,8 +25,8 @@ class StoreReviewsRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
-        ];
+        return array_merge(Reviews::rules, [
+            'business_id' => 'required|integer|exists:businesses,id',
+        ]);
     }
 }
