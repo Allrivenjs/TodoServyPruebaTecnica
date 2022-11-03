@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Business;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UpdateBusinessRequest extends FormRequest
 {
@@ -13,7 +15,8 @@ class UpdateBusinessRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+
+        return Auth::check();
     }
 
     /**
@@ -23,8 +26,6 @@ class UpdateBusinessRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
-        ];
+        return Business::rules;
     }
 }

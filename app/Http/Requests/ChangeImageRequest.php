@@ -2,18 +2,17 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Business;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class StoreBusinessRequest extends FormRequest
+class ChangeImageRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize(): bool
+    public function authorize()
     {
         return Auth::check();
     }
@@ -23,10 +22,10 @@ class StoreBusinessRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules(): array
+    public function rules()
     {
-        return array_merge(Business::rules,[
+        return [
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
+        ];
     }
 }
