@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
@@ -16,7 +17,13 @@ class Business extends Model
         'phone' => 'required|string|max:100',
     ];
 
+
     protected $fillable = ['name', 'about_it', 'phone', 'user_id'];
+
+    public function getCreatedAtAttribute($value): string
+    {
+        return Carbon::create($value)->diffForHumans(['parts' => 1]);
+    }
 
     public function create(mixed $validated): static
     {
@@ -33,9 +40,9 @@ class Business extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function images(): \Illuminate\Database\Eloquent\Relations\MorphMany
+    public function images(): \Illuminate\Database\Eloquent\Relations\MorphOne
     {
-        return $this->morphMany(Images::class, 'imageable');
+        return $this->morphOne(Images::class, 'imageable');
     }
 
     public function reviews(): \Illuminate\Database\Eloquent\Relations\HasMany

@@ -11,14 +11,19 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ReviewsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api')->except(['index', 'show']);
+
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(): \Illuminate\Http\Response
+    public function index($id): \Illuminate\Http\Response
     {
-        return response(Reviews::all());
+        return response(Reviews::query()->with('user')->where('business_id', $id)->get(), Response::HTTP_OK);
     }
 
     /**
@@ -59,12 +64,16 @@ class ReviewsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param Reviews $reviews
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Reviews $reviews): \Illuminate\Http\Response
+    public function destroy($reviews): \Illuminate\Http\Response
     {
         Gate::before(fn()=> $this->isOwner(Auth::user(), $reviews));
-        return response($reviews->delete(), Response::HTTP_NO_CONTENT);
+        $r = Reviews::query()->find($reviews);
+        if (!$r) {
+            return response(['message' => 'Not found'], Response::HTTP_NOT_FOUND);
+        }
+        $r->delete();
+        return response(null, Response::HTTP_NO_CONTENT);
     }
 }

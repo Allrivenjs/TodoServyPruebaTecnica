@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Images;
 use App\Traits\AuthTrait;
+use App\Traits\FileTrait;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -17,7 +18,7 @@ use Illuminate\Support\Facades\Storage;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests, AuthTrait;
-
+    use FileTrait;
 
     protected function isOwner(Authenticatable $user, Model $model): bool
     {
@@ -28,7 +29,7 @@ class Controller extends BaseController
     {
         if ($image) {
             $this->deleteImages($model);
-            $model->images()->update([
+            $model->images()->create([
                 'url' => Storage::put('businesses/'.$model->id, $image)
             ]);
         }
@@ -37,10 +38,8 @@ class Controller extends BaseController
     protected function deleteImages(Model $model): void
     {
         if ($model->images()->exists()) {
-            $model->images()?->each(function (Images $image){
-                Storage::delete($image->url);
-                $image->delete();
-            });
+            Storage::delete($model->images->url);
+            $model->images()->delete();
         }
     }
 }

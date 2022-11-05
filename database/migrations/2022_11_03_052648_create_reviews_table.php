@@ -15,8 +15,7 @@ return new class extends Migration
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 150);
-            $table->integer('starts', false, true);
+            $table->integer('stars', false, true);
             $table->string('comment', 450);
             $table->foreignIdFor(\App\Models\User::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignIdFor(\App\Models\Business::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();

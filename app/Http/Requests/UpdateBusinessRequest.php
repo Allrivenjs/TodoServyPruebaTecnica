@@ -26,6 +26,8 @@ class UpdateBusinessRequest extends FormRequest
      */
     public function rules()
     {
-        return Business::rules;
+        return array_merge(Business::rules,[
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
     }
 }

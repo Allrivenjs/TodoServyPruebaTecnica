@@ -22,9 +22,10 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:api');
 
-Route::apiResources([
-    'businesses' => BusinessController::class,
-    'reviews' => ReviewsController::class,
-]);
+Route::apiResource('reviews' , ReviewsController::class)->except(['update', 'index','show']);
+Route::apiResource(  'businesses', BusinessController::class)->except(['update']);
 
-Route::post('update-image/{business}', [BusinessController::class, 'updateImage'])->middleware('auth:api');
+Route::post('/reviews/{review}', [ReviewsController::class, 'update']);
+Route::post('/businesses/{business}', [BusinessController::class, 'update']);
+Route::get('/reviews/{id}', [ReviewsController::class, 'index']);
+

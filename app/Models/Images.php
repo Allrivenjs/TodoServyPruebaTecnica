@@ -11,6 +11,11 @@ class Images extends Model
 
     protected $fillable = ['url', 'imageable_id', 'imageable_type'];
 
+    public function getUrlAttribute($value): string
+    {
+        return env('APP_URL') .'/?path=' . $value;
+    }
+
     public function imageable(): \Illuminate\Database\Eloquent\Relations\MorphTo
     {
         return $this->morphTo();
