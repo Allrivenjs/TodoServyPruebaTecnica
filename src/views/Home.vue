@@ -19,11 +19,11 @@ businessesList.getAll();
     <div class="flex flex-col">
       <div class="flex gap-y-2">
         <div class="container mx-auto px-4 md:px-12">
-            <div class="flex flex-wrap -mx-1 lg:-mx-4">
+            <div class="flex flex-wrap  ">
               <!-- Column -->
               <router-link :to="'businesses/'+i.id" v-for="i in businesses" :key="i.id"
 
-                  class="my-1 px-1 w-full h-screen md:w-1/2 lg:my-4 lg:px-4 " >
+                 class="my-1 px-1 w-full " :class="businesses.length > 1 ? 'lg:w-1/2' : ''"  >
 
                 <!-- Article -->
                 <article class="overflow-hidden rounded-lg shadow-lg">
@@ -32,7 +32,7 @@ businessesList.getAll();
                   </a>
                   <header class="flex items-center justify-between leading-tight p-3 ">
                     <h1 class="text-lg">
-                      <a class="no-underline hover:underline text-black" >
+                      <a class="no-underline hover:underline text-black text-2xl" >
                         {{i.name}}
                       </a>
                     </h1>
@@ -41,15 +41,15 @@ businessesList.getAll();
                     </p>
                   </header>
                   <div class="flex items-start gap-y-2 flex-col p-3">
-                    <div class="flex justify-between gap-x-24 ">
+                    <div class="flex justify-between w-full gap-x-24 ">
                       <p class="text-grey-darker flex text-sm">
                          Telefono:  {{i.phone}}
                       </p>
                       <star-rating class="flex" :item-rating="i.stars" :reviews_count="i.reviews_count"/>
                     </div>
                     <div class="w-full border-b border-gray-300"></div>
-                    <p class="text-grey-darker text-sm ">
-                      Acerca de:  {{i.about_it}}
+                    <p class="text-grey-darker break-all  text-sm ">
+                      Acerca de:  {{i.about_it.substring(0, 80)}}...
                     </p>
                   </div>
                   <footer class="flex items-center justify-between leading-none p-2 md:p-4">
@@ -64,6 +64,9 @@ businessesList.getAll();
                       <i class="fa fa-heart"></i>
                     </a>
                   </footer>
+
+
+
 
                 </article>
                 <!-- END Article -->

@@ -31,7 +31,6 @@ async function onSubmit(values) {
   send.append('name', name);
   send.append('about_it', about_it);
   send.append('phone', phone);
-  console.log(images);
   if (images && !images?.url) {
     send.append('image', images);
   }
@@ -85,8 +84,8 @@ function sub() {
                           </div>
                           <div class="flex flex-col">
                             <label class=" font-semibold text-md  my-3 " >Acerca de:</label >
-                            <Field name="about_it" as="textarea" placeholder="Cuentanos sobre tu negocio" :class="{ 'is-invalid': errors.about_it }"
-                                      class="border-2 border-gray-300 p-2 rounded-lg focus:outline-none focus:border-indigo-500 shadow-sm "
+                            <Field name="about_it" as="textarea"  rows="8" placeholder="Cuentanos sobre tu negocio" :class="{ 'is-invalid': errors.about_it }"
+                                      class="border-2 border-gray-300 h-auto p-2 rounded-lg focus:outline-none focus:border-indigo-500 shadow-sm "
 
                             />
                             <div class="invalid-feedback mt-2 text-sm text-red-400 font-semibold">{{ errors.about_it }}</div>
