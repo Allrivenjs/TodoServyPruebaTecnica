@@ -1,9 +1,7 @@
 import { defineStore } from 'pinia';
+import {axiosInstance} from "@/helpers";
 
-import { fetchWrapper } from '@/helpers';
-
-
-const baseUrl = `${import.meta.env.VITE_API_URL}/businesses`;
+const baseUrl = `/businesses`;
 
 export const useBusinessesStore = defineStore({
     id: 'businesses',
@@ -15,7 +13,7 @@ export const useBusinessesStore = defineStore({
         async getAll() {
             this.businesses = { loading: true };
             try {
-                this.businesses = await fetchWrapper.get(baseUrl);
+                this.businesses = (await axiosInstance.get(baseUrl)).data.data;
             } catch (error) {
                 this.businesses = { error };
             }
@@ -23,21 +21,36 @@ export const useBusinessesStore = defineStore({
         async getById(id) {
             this.business = { loading: true };
             try {
-                this.business = await fetchWrapper.get(`${baseUrl}/${id}`);
+                this.business = (await axiosInstance.get(`${baseUrl}/${id}`)).data.data;
             } catch (error) {
                 this.business = { error };
             }
         },
-        async store(params) {
-            await fetchWrapper.post(`${baseUrl}`, params);
+        async store(params, config) {
+            await axiosInstance.post(`${baseUrl}`, params, {
+                headers: {
+                    ...config,
+                }
+            });
         },
-        async update(id, params) {
-            await fetchWrapper.put(`${baseUrl}/${id}`, params);
+
+        async updateImage(id, params, config) {
+            await axiosInstance.post(`${baseUrl}/${id}`, params, {
+                headers: {
+                    ...config,
+                }
+            });
+        },
+        async update(id, params, config) {
+            await axiosInstance.post(`${baseUrl}/${id}`, params, {
+                headers: {
+                    ...config,
+                }
+            });
         },
         async delete(id) {
-            this.businesses.find(x => x.id === id).isDeleting = true;
-            await fetchWrapper.delete(`${baseUrl}/${id}`);
-            this.business = this.business.filter(x => x.id !== id);
+            await axiosInstance.delete(`${baseUrl}/${id}`);
+            this.businesses = this.businesses.filter(x => x.id !== id);
         }
     }
 });

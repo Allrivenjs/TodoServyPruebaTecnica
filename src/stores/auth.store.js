@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 
-import { fetchWrapper } from '@/helpers';
+import { axiosInstance } from '@/helpers';
 import router from '@/router';
 import { useAlertStore } from '@/stores';
 
@@ -16,25 +16,27 @@ export const useAuthStore = defineStore({
     actions: {
         async login(email, password) {
             try {
-                const user = await fetchWrapper.post(`${baseUrl}/login`, { email, password });
-
+                const user = (await axiosInstance.post(`${baseUrl}/login`, JSON.stringify({email, password}), {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })).data;
                 // update pinia state
                 this.user = user;
-
+                console.log(this.user);
                 // store user details and jwt in local storage to keep user logged in between page refreshes
                 localStorage.setItem('user', JSON.stringify(user));
-
                 // redirect to previous url or default to home page
-                router.push(this.returnUrl || '/');
+                await router.push(this.returnUrl || '/');
             } catch (error) {
                 const alertStore = useAlertStore();
                 alertStore.error(error);
             }
         },
-        logout() {
+       async logout() {
             this.user = null;
             localStorage.removeItem('user');
-            router.push('/login');
+            await router.push('/login');
         }
     }
 });

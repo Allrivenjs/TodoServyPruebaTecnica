@@ -4,8 +4,8 @@ import * as Yup from 'yup';
 import { useAuthStore } from '@/stores';
 
 const schema = Yup.object().shape({
-  email: Yup.string().required('Email is required'),
-  password: Yup.string().required('Password is required')
+  email: Yup.string().required('Email es requerido'),
+  password: Yup.string().required('Password es requerido')
 });
 
 async function onSubmit(values) {

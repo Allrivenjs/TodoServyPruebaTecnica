@@ -1,24 +1,26 @@
 <script setup>
-import { storeToRefs } from 'pinia';
 
-import { useBusinessesStore } from '@/stores';
-import BusinessList from "@/components/BusinessList.vue";
+import BusinessList from "@/components/Business/List.vue";
+import {useModalStore} from "@/stores";
 
-const businessesList = useBusinessesStore();
-const { businesses } = storeToRefs(businessesList);
-
-businessesList.getAll();
-
-console.log(businesses);
+const modelStore = useModalStore();
+const open = () => {
+  modelStore.change();
+}
 </script>
 
 <template>
   <div class="flex justify-center items-center h-screen w-full ">
-    <div class="flex flex-col gap-y-10">
-      <div>
-        <h1 class="font-semibold text-4xl ">CRUD de negocios</h1>
+    <div class="flex flex-col gap-y-10 w-4/12">
+      <div class="flex flex-col gap-y-2">
+        <h1  class="flex justify-between   items-center font-semibold text-4xl ">
+          Negocios
+          <button @click="open" class="material-icons text-blue-600">
+            add_box
+          </button>
+        </h1>
       </div>
-      <BusinessList :businesses="businesses" />
+      <BusinessList />
     </div>
   </div>
 </template>

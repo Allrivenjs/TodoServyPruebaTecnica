@@ -12,7 +12,7 @@ const router = createRouter({
     { path: '/', component: Home },
     { ...accountRoutes },
     { ...businessesRoutes },
-    { path: '/:pathMatch(.*)*', name: 'not-found', redirect: '/' },
+    // { path: '/:pathMatch(.*)*', name: 'not-found', redirect: '/' },
   ]
 });
 
@@ -20,7 +20,6 @@ router.beforeEach(async (to) => {
   // clear alert on route change
   const alertStore = useAlertStore();
   alertStore.clear();
-
   // redirect to login page if not logged in and trying to access a restricted page
   const publicPages = ['/login'];
   const authRequired = !publicPages.includes(to.path);
