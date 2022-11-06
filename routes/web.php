@@ -16,3 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [Controller::class, 'getImages'])
     ->name('getAnyImage');
+
+Route::get('/', function () {
+    return view('welcome');
+});
