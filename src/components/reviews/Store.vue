@@ -56,6 +56,7 @@ const star_select = (star) => {
 const onSubmit = (values) => {
   const { comment } = values;
   const { business_id } = props;
+  starC === 0 ? starC = 1 : starC;
   const send = JSON.stringify({comment, stars:starC, business_id})
   const headers = {
     'Content-Type': 'application/json',
