@@ -61,7 +61,10 @@ const onSubmit = (values) => {
     'Content-Type': 'application/json',
   }
   reviewsList.store(send, headers);
-  reviewsList.getAll(business_id);
+  //sleep 1 second
+  setTimeout(() => {
+    reviewsList.getAll(business_id);
+  }, 500);
 }
 
 </script>
